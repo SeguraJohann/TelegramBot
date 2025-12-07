@@ -1,0 +1,8 @@
+# Telegram Bot API
+python-telegram-bot>=20.0
+
+# Task Scheduler
+apscheduler>=3.10.0
+
+# Environment variables
+python-dotenv>=1.0.0
