@@ -1,6 +1,11 @@
 # Environment variables
 .env
 
+# Personal documentation (keep local)
+estado_actual.txt
+README.md
+ARQUITECTURA.md
+
 # Python
 __pycache__/
 *.py[cod]
