@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Dict, List
-from ..base import BasePlugin
+from modules.base import BasePlugin
 
 
 class BaseSender(BasePlugin, ABC):

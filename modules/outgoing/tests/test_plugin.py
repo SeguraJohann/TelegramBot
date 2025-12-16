@@ -1,6 +1,6 @@
 import os
 from typing import Dict, List
-from ..base_sender import BaseSender
+from modules.outgoing.base_sender import BaseSender
 
 
 class TestPlugin(BaseSender):

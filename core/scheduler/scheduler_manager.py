@@ -2,7 +2,7 @@ import asyncio
 from typing import Dict, List, Optional, Any, Callable
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.job import Job
-from ...modules.storage import JobStorage
+from modules.storage import JobStorage
 
 
 class SchedulerManager:
