@@ -200,7 +200,7 @@ class JobStorage:
     ) -> Dict[str, Any]:
         """
         Create standardized job data structure.
-        
+
         Args:
             job_id: Unique identifier for the job
             plugin_type: Type of plugin (outgoing, incoming, hybrid)
@@ -209,7 +209,7 @@ class JobStorage:
             schedule: Schedule configuration
             description: Human-readable description
             active: Whether the job is active
-            
+
         Returns:
             Dict with standardized job data
         """
@@ -228,3 +228,57 @@ class JobStorage:
                 'error_count': 0
             }
         }
+
+    def update_job_status(self, job_id: str, active: bool) -> bool:
+        """
+        Update the active status of a job.
+
+        Args:
+            job_id: ID of the job to update
+            active: New active status
+
+        Returns:
+            bool: True if updated successfully
+        """
+        try:
+            job_data = self.load_job(job_id)
+
+            if not job_data:
+                print(f"Job {job_id} not found")
+                return False
+
+            job_data['metadata']['active'] = active
+
+            return self.save_job(job_data)
+
+        except Exception as e:
+            print(f"Error updating job status for {job_id}: {e}")
+            return False
+
+    def update_job_metadata(self, job_id: str, metadata_updates: Dict[str, Any]) -> bool:
+        """
+        Update specific metadata fields of a job.
+
+        Args:
+            job_id: ID of the job to update
+            metadata_updates: Dictionary with metadata fields to update
+
+        Returns:
+            bool: True if updated successfully
+        """
+        try:
+            job_data = self.load_job(job_id)
+
+            if not job_data:
+                print(f"Job {job_id} not found")
+                return False
+
+            # Update metadata fields
+            for key, value in metadata_updates.items():
+                job_data['metadata'][key] = value
+
+            return self.save_job(job_data)
+
+        except Exception as e:
+            print(f"Error updating job metadata for {job_id}: {e}")
+            return False
