@@ -1,3 +1,4 @@
-from .storage import PluginStorage
+# Storage module placeholder
+# Actual job storage implementation is in modules/storage/job_storage.py
 
-__all__ = ['PluginStorage']
+__all__ = []
