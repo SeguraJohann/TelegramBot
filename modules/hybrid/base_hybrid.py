@@ -125,6 +125,11 @@ class BaseHybrid(BasePlugin, ABC):
     async def _safe_send_wrapper(self):
         """Wrapper for send method with error handling and logging."""
         try:
+            # Check if plugin is active before executing
+            if not self._is_plugin_active():
+                self.logger.debug(f"Plugin {self.__class__.__name__} is disabled, skipping execution")
+                return
+
             await self.send()
             self.log_execution()
         except Exception as e:
@@ -133,6 +138,11 @@ class BaseHybrid(BasePlugin, ABC):
     async def _safe_handle_wrapper(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Wrapper for handle method with error handling and logging."""
         try:
+            # Check if plugin is active before executing
+            if not self._is_plugin_active():
+                self.logger.debug(f"Plugin {self.__class__.__name__} is disabled, skipping execution")
+                return
+
             await self.handle(update, context)
             self.log_execution()
         except Exception as e:
@@ -146,6 +156,18 @@ class BaseHybrid(BasePlugin, ABC):
                     )
                 except:
                     pass
+
+    def _is_plugin_active(self) -> bool:
+        """Check if plugin is currently active by reading from storage."""
+        try:
+            job_id = self.get_job_id()
+            job_data = self.scheduler.job_storage.load_job(job_id)
+            if job_data:
+                return job_data.get('metadata', {}).get('active', True)
+            return True  # Default to active if not found
+        except Exception as e:
+            self.logger.error(f"Error checking plugin status: {e}")
+            return True  # Default to active on error
 
     # Registration methods
 
